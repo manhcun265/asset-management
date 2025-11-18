@@ -1,0 +1,795 @@
+{
+	"info": {
+		"_postman_id": "asset-management-api-collection",
+		"name": "Asset Management API",
+		"description": "API cho hệ thống quản lý tài sản",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{access_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set('access_token', jsonData.data.token);",
+									"    pm.environment.set('user_id', jsonData.data.userId);",
+									"    console.log('Token saved:', jsonData.data.token);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"Admin@123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/login",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "login"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/auth/logout",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "logout"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"currentPassword\": \"Admin@123\",\n    \"newPassword\": \"NewPass@123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/change-password",
+							"host": ["{{base_url}}"],
+							"path": ["api", "auth", "change-password"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Department",
+			"item": [
+				{
+					"name": "Create Department",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Phòng IT\",\n    \"description\": \"Phòng Công nghệ thông tin\",\n    \"location\": \"Tầng 5\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/departments",
+							"host": ["{{base_url}}"],
+							"path": ["api", "departments"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Departments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/departments?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "departments"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Department By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/departments/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "departments", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Department",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Phòng IT - Updated\",\n    \"description\": \"Phòng Công nghệ thông tin - Updated\",\n    \"location\": \"Tầng 6\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/departments/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "departments", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Department",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/departments/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "departments", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Asset Type",
+			"item": [
+				{
+					"name": "Create Asset Type",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Laptop\",\n    \"description\": \"Máy tính xách tay\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/asset-types",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-types"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Asset Types",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/asset-types?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-types"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset Type By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/asset-types/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-types", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset Type",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Laptop Dell\",\n    \"description\": \"Máy tính xách tay Dell\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/asset-types/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-types", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asset Type",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/asset-types/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-types", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Asset",
+			"item": [
+				{
+					"name": "Create Asset",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assetCode\": \"LAP001\",\n    \"name\": \"Laptop Dell XPS 15\",\n    \"description\": \"Laptop cao cấp\",\n    \"typeId\": 1,\n    \"departmentId\": 1,\n    \"purchaseDate\": \"2024-01-15\",\n    \"purchasePrice\": 25000000,\n    \"status\": \"AVAILABLE\",\n    \"location\": \"Kho IT\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/assets",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assets",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Asset",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assetCode\": \"LAP001\",\n    \"name\": \"Laptop Dell XPS 15 - Updated\",\n    \"description\": \"Laptop cao cấp - Updated\",\n    \"typeId\": 1,\n    \"departmentId\": 1,\n    \"purchaseDate\": \"2024-01-15\",\n    \"purchasePrice\": 27000000,\n    \"status\": \"IN_USE\",\n    \"location\": \"Phòng IT\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/assets/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Asset",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/assets/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "assets", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"john.doe\",\n    \"password\": \"Pass@123\",\n    \"fullName\": \"John Doe\",\n    \"email\": \"john@example.com\",\n    \"phoneNumber\": \"0123456789\",\n    \"address\": \"Hà Nội\",\n    \"departmentId\": 1,\n    \"roleIds\": [1]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"john.doe\",\n    \"fullName\": \"John Doe Updated\",\n    \"email\": \"john.updated@example.com\",\n    \"phoneNumber\": \"0987654321\",\n    \"address\": \"Hà Nội\",\n    \"departmentId\": 1,\n    \"roleIds\": [1]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/users/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "users", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Role",
+			"item": [
+				{
+					"name": "Create Role",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"USER\",\n    \"description\": \"Người dùng thông thường\",\n    \"permissionIds\": [1, 2, 3]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/roles",
+							"host": ["{{base_url}}"],
+							"path": ["api", "roles"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Roles",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/roles?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "roles"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Role By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/roles/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "roles", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Role",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"USER\",\n    \"description\": \"Người dùng thông thường - Updated\",\n    \"permissionIds\": [1, 2, 3, 4]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/roles/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "roles", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Role",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/roles/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "roles", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Permission",
+			"item": [
+				{
+					"name": "Create Permission",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"VIEW_REPORT\",\n    \"description\": \"Xem báo cáo\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/permissions",
+							"host": ["{{base_url}}"],
+							"path": ["api", "permissions"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Permissions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/permissions?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "permissions"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Permission By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/permissions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "permissions", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Permission",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"VIEW_REPORT\",\n    \"description\": \"Xem báo cáo hệ thống\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/permissions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "permissions", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Permission",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/permissions/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "permissions", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Asset Assignment",
+			"item": [
+				{
+					"name": "Create Assignment",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assetId\": 1,\n    \"userId\": 2,\n    \"assignedDate\": \"2024-01-20\",\n    \"returnDate\": \"2024-12-31\",\n    \"notes\": \"Phân bổ laptop cho nhân viên mới\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/asset-assignments",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-assignments"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Assignments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/asset-assignments?page=0&size=10",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-assignments"],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Assignment By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/asset-assignments/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-assignments", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Assignment",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"assetId\": 1,\n    \"userId\": 2,\n    \"assignedDate\": \"2024-01-20\",\n    \"returnDate\": \"2025-01-31\",\n    \"notes\": \"Gia hạn sử dụng\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/asset-assignments/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-assignments", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Assignment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/asset-assignments/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "asset-assignments", "1"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
+
